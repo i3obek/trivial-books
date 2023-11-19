@@ -34,4 +34,22 @@
     </table>
 
     <a href="{{ path('app_author_new') }}">Create new</a>
+
+    <div class="pagination">
+        <ul class="pagination">
+            <li class="page-item{{ currentPage == 1 ? ' disabled' : '' }}">
+                <a class="page-link" href="{{ path('app_author_index', {'page': currentPage - 1, 'size': size}) }}">Previous</a>
+            </li>
+
+            {% for page in 1..totalPages %}
+                <li class="page-item{{ currentPage == page ? ' active' : '' }}">
+                    <a class="page-link" href="{{ path('app_author_index', {'page': page, 'size': size}) }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+
+            <li class="page-item{{ currentPage == totalPages ? ' disabled' : '' }}">
+                <a class="page-link" href="{{ path('app_author_index', {'page': currentPage + 1, 'size': size}) }}">Next</a>
+            </li>
+        </ul>
+    </div>
 {% endblock %}

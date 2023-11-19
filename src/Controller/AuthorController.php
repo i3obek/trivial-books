@@ -15,10 +15,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class AuthorController extends AbstractController
 {
     #[Route('s', name: 'app_author_index', methods: ['GET'])]
-    public function index(AuthorRepository $authorRepository): Response
+    public function index(AuthorRepository $authorRepository, Request $request): Response
     {
+        $authors = $authorRepository->findAll();
+
+        $page     = $request->query->getInt('page', 1);
+        $pageSize = $request->query->getInt('size', 10);
+
+        $totalItems = count($authors);
+        $totalPages = ceil($totalItems / $pageSize);
+
+        $authors = array_slice($authors, ($page - 1) * $pageSize, $pageSize);
+
         return $this->render('author/index.html.twig', [
-            'authors' => $authorRepository->findAll(),
+            'authors' => $authors,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+            'size' => $pageSize,
         ]);
     }
 

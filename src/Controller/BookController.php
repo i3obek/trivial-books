@@ -7,6 +7,7 @@ use App\Form\BookType;
 use App\Repository\AuthorRepository;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,8 +19,21 @@ class BookController extends AbstractController
     #[Route('s', name: 'app_book_index', methods: ['GET'])]
     public function index(BookRepository $bookRepository, Request $request): Response
     {
+        $page     = $request->query->getInt('page', 1);
+        $pageSize = $request->query->getInt('size', 10);
+
+        $books = $bookRepository->findAll();
+
+        $totalItems = count($books);
+        $totalPages = ceil($totalItems / $pageSize);
+
+        $books = array_slice($books, ($page - 1) * $pageSize, $pageSize);
+
         return $this->render('book/index.html.twig', [
-            'books' => $bookRepository->findAll(),
+            'books' => $books,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+            'size' => $pageSize,
         ]);
     }
 
@@ -79,5 +93,16 @@ class BookController extends AbstractController
         }
 
         return $this->redirectToRoute('app_book_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function paginate($dql, $page, $pageSize)
+    {
+        $paginator = new Paginator($dql);
+        $paginator
+            ->getQuery()
+            ->setFirstResult($pageSize * ($page - 1))
+            ->setMaxResults($pageSize);
+
+        return $paginator;
     }
 }

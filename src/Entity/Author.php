@@ -70,7 +70,7 @@ class Author
     {
         if (!$this->books->contains($book)) {
             $this->books->add($book);
-            $book->setAuthor($this);
+            $book->setAuthorId($this);
         }
 
         return $this;
@@ -80,8 +80,8 @@ class Author
     {
         if ($this->books->removeElement($book)) {
             // set the owning side to null (unless already changed)
-            if ($book->getAuthor() === $this) {
-                $book->setAuthor(null);
+            if ($book->getAuthorId() === $this) {
+                $book->setAuthorId(null);
             }
         }
 
