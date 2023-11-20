@@ -1,35 +1,10 @@
-**## DOCKER ##**
-****
-*## SHORTCUT START ##*
-
-#
-***!! ## !! TAKE CARE OF `.env` !! ## !!***
-#
-
-`cd .tools`
-
-`./install.sh` (*first run*)
-
-`./docker-stop.sh`
-
-****
-*## OPTIONALLY ##*
-
-`chmod +x install.sh` / `chmod +x docker.sh`
-****
-*## RUN ##*
-
-`./docker-start.sh`
-
-`./docker-stop.sh`
-****
-#
-**## ↓↓↓ MANUAL ↓↓↓ ##**
-
-#
 **## Run on Docker**
 
-This option requires **Docker**, **Git** and **WSL-2** (Windows) to be installed.
+**## ↓↓↓ MANUAL ↓↓↓ ##**
+#
+This option requires to be installed.
+- **Docker**, **Git** and **WSL-2** (Windows)
+- **docker**, **docker-compose** (Linux)
 
 **## Set Docker data**
 
